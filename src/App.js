@@ -1,30 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Hello from './Hello';
+import Chatbox from './components/Chatbox';
 
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      term: '',
+      items: []
+    };
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Hello name="stranger!"/>
+  onChange = (event) => {
+    this.setState({ term: event.target.value});
+  }
 
-      </header>
-    </div>
-  );
+  onSubmit = (event) => {
+    event.preventDefault()
+    this.setState({
+      term: '',
+      items: [...this.state.items, this.state.term]
+    });
+  }
+
+  render() {
+      return (
+        <div className="App">
+          <h1>Chat app</h1>
+          <Chatbox items={this.state.items} />
+          <form className="messsage-form" onSubmit={this.onSubmit}>
+            <input value={this.state.term} onChange={this.onChange} />
+            <button>Send</button>
+          </form>
+        </div>
+      );
+  }
 }
 
 export default App;
